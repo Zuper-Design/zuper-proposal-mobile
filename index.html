@@ -830,22 +830,19 @@ img { display: block; }
   flex-shrink: 0;
 }
 
-.row-chevron {
+.row-edit-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   flex-shrink: 0;
-  color: var(--ink-lighter);
+  color: var(--blue-normal);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
 }
-
-/* Lock indicator */
-.lock-icon {
-  display: inline-flex;
-  align-items: center;
-  color: var(--ink-lighter);
-  opacity: 0.6;
-}
-.lock-icon svg { width: 12px; height: 12px; }
+.row-edit-btn:active { background: var(--cloud-normal); transform: scale(0.92); }
 
 /* Visibility eye button */
 .visibility-btn {
@@ -2001,36 +1998,39 @@ function buildRow(page, idx, isConfigurable) {
   const dragSvg = '<svg width="12" height="18" viewBox="0 0 12 18" fill="none"><circle cx="3.5" cy="3" r="1.5" fill="currentColor"/><circle cx="8.5" cy="3" r="1.5" fill="currentColor"/><circle cx="3.5" cy="9" r="1.5" fill="currentColor"/><circle cx="8.5" cy="9" r="1.5" fill="currentColor"/><circle cx="3.5" cy="15" r="1.5" fill="currentColor"/><circle cx="8.5" cy="15" r="1.5" fill="currentColor"/></svg>';
 
   const isCover = page.id === 'cover';
-  const lockIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
 
   const statusParts = [];
-  if (!page.active) statusParts.push('<span class="status-dot inactive"></span>Inactive');
-  if (page.locked) statusParts.push('Locked');
+  if (!page.active) statusParts.push('<span class="status-dot inactive"></span>Hidden');
   const statusHtml = statusParts.length > 0
     ? `<div class="row-status">${statusParts.join(' · ')}</div>`
     : '';
 
   const eyeOpenSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
   const eyeClosedSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/><path d="M14.12 14.12a3 3 0 11-4.24-4.24"/></svg>';
+  const lockSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
 
-  const chevronHtml = isConfigurable
-    ? '<div class="row-chevron" data-edit="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>'
+  const editBtnHtml = isConfigurable
+    ? '<div class="row-edit-btn" data-edit="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>'
     : '';
 
-  const visibilityClass = 'visibility-btn' + (!page.active ? ' hidden' : '') + (page.locked ? ' locked' : '');
+  let actionIconHtml;
+  if (page.locked) {
+    actionIconHtml = `<div class="visibility-btn locked" data-visibility="${idx}">${lockSvg}</div>`;
+  } else {
+    const visClass = 'visibility-btn' + (!page.active ? ' hidden' : '');
+    actionIconHtml = `<div class="${visClass}" data-visibility="${idx}">${page.active ? eyeOpenSvg : eyeClosedSvg}</div>`;
+  }
 
   row.innerHTML = `
     <div class="drag-handle${isCover ? ' locked' : ''}" data-drag="${idx}">${dragSvg}</div>
     <div class="layout-row-icon">${pageIcons[page.id]}</div>
     <div class="layout-row-text">
-      <div class="row-name">${page.name}${page.locked ? '<span class="lock-icon">' + lockIcon + '</span>' : ''}</div>
+      <div class="row-name">${page.name}</div>
       ${statusHtml}
     </div>
     <div class="row-right-actions">
-      ${chevronHtml}
-      <div class="${visibilityClass}" data-visibility="${idx}">
-        ${page.active ? eyeOpenSvg : eyeClosedSvg}
-      </div>
+      ${editBtnHtml}
+      ${actionIconHtml}
     </div>
   `;
 
@@ -2043,13 +2043,9 @@ function buildRow(page, idx, isConfigurable) {
   }
 
   const visBtn = row.querySelector(`[data-visibility="${idx}"]`);
-  if (visBtn) {
+  if (visBtn && !page.locked) {
     visBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (page.locked) {
-        showToast('toastB', page.name + ' is locked');
-        return;
-      }
       page.active = !page.active;
       renderLayoutRows();
     });
