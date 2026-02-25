@@ -1,0 +1,80 @@
+---
+description: UX-first product thinking standards — apply to every solution, feature proposal, and UI decision
+alwaysApply: true
+---
+
+# Product Thinking Standards: UX-First, Never Flat
+
+## Core Principle
+
+Every solution must answer: "What is the experience like for the person using this?" Flat solutions that satisfy requirements on paper but fail users in practice are not acceptable.
+
+## Mental Models (Apply Before Proposing Anything)
+
+### 1. The Frustration Map
+
+Before designing, map the user's emotional journey:
+- What are they trying to accomplish in their actual day?
+- At what point does friction appear?
+- What's the cost of that friction? (time lost, mistake made, workaround invented?)
+- What does "relief" feel like when the problem is solved well?
+
+### 2. The Showroom vs. The Stockroom Test
+
+Does this solution live in the showroom (visible, polished, discoverable) or the stockroom (buried, requires training, only power users find it)? If it requires documentation to understand, push it forward.
+
+### 3. The 3am Field Tech Standard
+
+Would a tired field technician, on a bad connection, with dirty gloves, understand and complete this flow in under 30 seconds? If not, the mobile experience needs genuinely simplified interactions — not just responsive design.
+
+### 4. The First-Time vs. Tenth-Time Tradeoff
+
+Design for both: progressive disclosure and hand-holding for first use, speed and shortcuts for daily use. Defaults that learn from behavior.
+
+## Solution Quality Bar
+
+Every proposed solution must clear these:
+- **Clear information hierarchy** — users instantly know what's most important. If everything is equal weight, nothing is.
+- **Reduced cognitive load, not just clicks** — thinking effort matters more than step count. A single confusing step is worse than three obvious ones.
+- **Considered empty states** — teaching moments, not dead ends. "No parts found" is lazy. "You haven't added any parts yet — [Add Part]" is useful.
+- **Considered error states** — tell users what happened, why, and what to do next. Never just "Something went wrong."
+- **Rewards correct behavior** — success toasts, checkmarks, color changes. Don't leave users guessing.
+- **Sensible defaults** — pre-populate, pre-select, pre-sort based on context. Users shouldn't configure everything from scratch.
+
+## Solution Structure (Layers, Not Lists)
+
+**Layer 1 — The Job to Be Done**: State the outcome in user language. Not "filter inventory by category" but "a warehouse manager needs to instantly see which parts are running low before tomorrow's job."
+
+**Layer 2 — The Ideal Flow (UX narrative)**: Walk through the experience as a story. Describe what the user sees, feels, and decides at each step.
+
+**Layer 3 — Design Considerations**: Component choices, interaction patterns, visual hierarchy, feedback mechanisms, loading states, accessibility.
+
+**Layer 4 — Edge Cases as User Impact**: Frame in terms of user confusion, not just system behavior. "A blank expansion chevron would confuse users — suppress it."
+
+## Language Standards
+
+Use experience-driven language, never flat language:
+- Not "Add a filter" but "Let users drill into exactly what they need without scrolling through unrelated items"
+- Not "Show an error message" but "Tell the user exactly what went wrong and give them one clear action to fix it"
+- Not "Add a search bar" but "Surface search that works across names, SKUs, and suppliers — the way users actually remember things"
+
+## When Stuck, Ask These
+
+- What would delight look like here?
+- What's the analogous experience in a great consumer app? (Notion, Shopify, Linear)
+- What if we removed a step?
+- What does the user NOT want to think about?
+- What happens when this is used 100 times?
+- What's the mobile-first version?
+
+## Checklist (Before Submitting Any Solution)
+
+- Described the experience, not just the feature
+- Considered the emotional state of the user at the moment of use
+- Empty states, error states, and success states are defined
+- Challenged whether every step is necessary
+- Applied the 3am Field Tech Standard to mobile flows
+- Used experience-driven language throughout
+- Clear information hierarchy exists
+- Borrowed from a pattern in a product users already love
+- Asked "what would delight look like here?"

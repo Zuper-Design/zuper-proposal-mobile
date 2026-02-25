@@ -749,6 +749,23 @@ img { display: block; }
   box-shadow: 0 0 0 1px rgba(28,59,84,0.06), 0 1px 3px rgba(28,59,84,0.08);
   overflow: hidden;
 }
+.layout-section-hint {
+  padding: 8px 16px 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-lighter);
+  line-height: 1.4;
+}
+.row-customize-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--blue-normal);
+  background: var(--blue-light);
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
 .layout-card-header {
   padding: 20px 16px 8px;
   font-size: 12px;
@@ -768,9 +785,10 @@ img { display: block; }
   position: relative;
 }
 .layout-row + .layout-row { border-top: 1px solid var(--cloud-normal); }
-.layout-row:active { background: var(--cloud-light); }
-.reorder-mode .layout-row { cursor: default; }
-.reorder-mode .layout-row:active { background: var(--surface-light); }
+.layout-row.configurable { cursor: pointer; }
+.layout-row.configurable:active { background: var(--cloud-light); }
+.reorder-mode .layout-row.configurable { cursor: default; }
+.reorder-mode .layout-row.configurable:active { background: var(--surface-light); }
 .layout-row.dragging {
   box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
   z-index: 10;
@@ -839,8 +857,9 @@ img { display: block; }
   color: var(--cloud-dark);
   transition: transform 0.15s;
 }
-.layout-row:active .chevron-right { transform: translateX(2px); }
+.layout-row.configurable:active .chevron-right { transform: translateX(2px); }
 .reorder-mode .chevron-right { display: none; }
+.reorder-mode .row-customize-tag { display: none; }
 
 /* Lock indicator */
 .lock-icon {
@@ -871,7 +890,7 @@ img { display: block; }
   border: none;
   transition: background 0.25s ease;
 }
-.ios-switch:checked { background: var(--blue-normal); }
+.ios-switch:checked { background: #1A237E; }
 .ios-switch::after {
   content: '';
   position: absolute;
@@ -1763,10 +1782,8 @@ img { display: block; }
       </div>
 
       <div class="scroll-content" id="layoutList" style="background:var(--cloud-light);">
-        <div class="layout-card" id="layoutRowsCard">
-          <div id="layoutRows">
-            <!-- Rows injected by JS -->
-          </div>
+        <div id="layoutSections">
+          <!-- Sections injected by JS -->
         </div>
       </div>
 
@@ -1983,7 +2000,7 @@ function goBackToA() {
     document.getElementById('reorderBtnIcon').style.display = '';
     document.getElementById('reorderBtnLabel').style.display = 'none';
     document.getElementById('previewNavBtn').style.display = '';
-    applyReorderUI();
+    renderLayoutRows();
   }
   setScreenClasses('active', 'right', 'right');
 }
@@ -2013,81 +2030,108 @@ function goBackFromPreview() {
 /* ================================================================
    SCREEN B: LAYOUT ROWS
    ================================================================ */
+const configurablePages = new Set(['gallery']);
+
 function renderLayoutRows() {
-  const container = document.getElementById('layoutRows');
-  container.innerHTML = '';
+  const wrapper = document.getElementById('layoutSections');
+  wrapper.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'layout-card' + (state.reorderMode ? ' reorder-mode' : '');
+  card.id = 'layoutReorderCard';
+
   state.layoutPages.forEach((page, idx) => {
-    const row = document.createElement('div');
-    row.className = 'layout-row';
-    row.dataset.index = idx;
-    row.dataset.id = page.id;
-
-    const hasDetail = page.id === 'gallery';
-    const dragSvg = '<svg width="16" height="24" viewBox="0 0 16 24" fill="none"><circle cx="5" cy="4" r="1.5" fill="currentColor"/><circle cx="11" cy="4" r="1.5" fill="currentColor"/><circle cx="5" cy="10" r="1.5" fill="currentColor"/><circle cx="11" cy="10" r="1.5" fill="currentColor"/><circle cx="5" cy="16" r="1.5" fill="currentColor"/><circle cx="11" cy="16" r="1.5" fill="currentColor"/><circle cx="5" cy="22" r="1.5" fill="currentColor"/><circle cx="11" cy="22" r="1.5" fill="currentColor"/></svg>';
-
-    const isCover = page.id === 'cover';
-    const lockIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
-
-    const statusParts = [];
-    if (!page.active) statusParts.push('<span class="status-dot inactive"></span>Inactive');
-    if (page.locked) statusParts.push('Locked');
-    const statusHtml = statusParts.length > 0
-      ? `<div class="row-status">${statusParts.join(' · ')}</div>`
-      : '';
-
-    row.innerHTML = `
-      <div class="drag-handle${isCover ? ' locked' : ''}" data-drag="${idx}">${dragSvg}</div>
-      <div class="layout-row-icon">${pageIcons[page.id]}</div>
-      <div class="layout-row-text">
-        <div class="row-name">${page.name}${page.locked ? '<span class="lock-icon">' + lockIcon + '</span>' : ''}</div>
-        ${statusHtml}
-      </div>
-      <div class="toggle-in-row">
-        <input type="checkbox" class="ios-switch${page.locked ? ' toggle-locked' : ''}" data-toggle="${idx}" ${page.active ? 'checked' : ''}>
-      </div>
-      ${hasDetail ? '<div class="chevron-right"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cloud-dark)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>' : ''}
-    `;
-
-    row.addEventListener('click', (e) => {
-      if (state.reorderMode) return;
-      if (e.target.closest('.toggle') || e.target.closest('.drag-handle')) return;
-      if (page.id === 'gallery') goToScreenC();
-    });
-
-    const toggleEl = row.querySelector(`[data-toggle="${idx}"]`);
-    if (toggleEl) {
-      toggleEl.addEventListener('change', (e) => {
-        e.stopPropagation();
-        page.active = toggleEl.checked;
-        renderLayoutRows();
-        applyReorderUI();
-      });
-      toggleEl.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (page.locked) {
-          e.preventDefault();
-          showToast('toastB', page.name + ' is locked');
-        }
-      });
-    }
-
-    const dragHandle = row.querySelector(`[data-drag="${idx}"]`);
-    if (dragHandle) {
-      dragHandle.addEventListener('pointerdown', (e) => onDragStart(e, idx));
-    }
-
-    container.appendChild(row);
+    card.appendChild(buildRow(page, idx, configurablePages.has(page.id)));
   });
+
+  wrapper.appendChild(card);
+
+  if (!state.reorderMode) {
+    const hint = document.createElement('div');
+    hint.className = 'layout-section-hint';
+    hint.textContent = 'Tap a page with the customize tag to edit its settings. Use the gear icon to reorder or toggle pages.';
+    wrapper.appendChild(hint);
+  }
+
   applyReorderUI();
 }
 
-function applyReorderUI() {
-  const card = document.getElementById('layoutRowsCard');
-  if (state.reorderMode) {
-    card.classList.add('reorder-mode');
-  } else {
-    card.classList.remove('reorder-mode');
+function buildRow(page, idx, isConfigurable) {
+  const row = document.createElement('div');
+  row.className = 'layout-row' + (isConfigurable ? ' configurable' : '');
+  row.dataset.index = idx;
+  row.dataset.id = page.id;
+
+  const dragSvg = '<svg width="16" height="24" viewBox="0 0 16 24" fill="none"><circle cx="5" cy="4" r="1.5" fill="currentColor"/><circle cx="11" cy="4" r="1.5" fill="currentColor"/><circle cx="5" cy="10" r="1.5" fill="currentColor"/><circle cx="11" cy="10" r="1.5" fill="currentColor"/><circle cx="5" cy="16" r="1.5" fill="currentColor"/><circle cx="11" cy="16" r="1.5" fill="currentColor"/><circle cx="5" cy="22" r="1.5" fill="currentColor"/><circle cx="11" cy="22" r="1.5" fill="currentColor"/></svg>';
+
+  const isCover = page.id === 'cover';
+  const lockIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
+
+  const statusParts = [];
+  if (!page.active) statusParts.push('<span class="status-dot inactive"></span>Inactive');
+  if (page.locked) statusParts.push('Locked');
+  const statusHtml = statusParts.length > 0
+    ? `<div class="row-status">${statusParts.join(' · ')}</div>`
+    : '';
+
+  const rightSide = isConfigurable
+    ? '<span class="row-customize-tag">Customize</span><div class="chevron-right"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cloud-dark)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>'
+    : '';
+
+  row.innerHTML = `
+    <div class="drag-handle${isCover ? ' locked' : ''}" data-drag="${idx}">${dragSvg}</div>
+    <div class="layout-row-icon">${pageIcons[page.id]}</div>
+    <div class="layout-row-text">
+      <div class="row-name">${page.name}${page.locked ? '<span class="lock-icon">' + lockIcon + '</span>' : ''}</div>
+      ${statusHtml}
+    </div>
+    <div class="toggle-in-row">
+      <input type="checkbox" class="ios-switch${page.locked ? ' toggle-locked' : ''}" data-toggle="${idx}" ${page.active ? 'checked' : ''}>
+    </div>
+    ${rightSide}
+  `;
+
+  if (isConfigurable) {
+    row.addEventListener('click', (e) => {
+      if (state.reorderMode) return;
+      if (e.target.closest('.ios-switch') || e.target.closest('.drag-handle')) return;
+      goToScreenC();
+    });
   }
+
+  const toggleEl = row.querySelector(`[data-toggle="${idx}"]`);
+  if (toggleEl) {
+    toggleEl.addEventListener('change', (e) => {
+      e.stopPropagation();
+      page.active = toggleEl.checked;
+      renderLayoutRows();
+      applyReorderUI();
+    });
+    toggleEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (page.locked) {
+        e.preventDefault();
+        showToast('toastB', page.name + ' is locked');
+      }
+    });
+  }
+
+  const dragHandle = row.querySelector(`[data-drag="${idx}"]`);
+  if (dragHandle) {
+    dragHandle.addEventListener('pointerdown', (e) => onDragStart(e, idx));
+  }
+
+  return row;
+}
+
+function applyReorderUI() {
+  document.querySelectorAll('.layout-card').forEach(card => {
+    if (state.reorderMode) {
+      card.classList.add('reorder-mode');
+    } else {
+      card.classList.remove('reorder-mode');
+    }
+  });
 }
 
 function toggleReorderMode() {
@@ -2099,7 +2143,7 @@ function toggleReorderMode() {
     icon.style.display = '';
     label.style.display = 'none';
     eyeBtn.style.display = '';
-    applyReorderUI();
+    renderLayoutRows();
     showToast('toastB', 'Layout saved successfully');
   } else {
     state.reorderMode = true;
@@ -2107,7 +2151,7 @@ function toggleReorderMode() {
     label.style.display = '';
     label.textContent = 'Done';
     eyeBtn.style.display = 'none';
-    applyReorderUI();
+    renderLayoutRows();
   }
 }
 
@@ -2117,7 +2161,7 @@ function saveLayout() {
     document.getElementById('reorderBtnIcon').style.display = '';
     document.getElementById('reorderBtnLabel').style.display = 'none';
     document.getElementById('previewNavBtn').style.display = '';
-    applyReorderUI();
+    renderLayoutRows();
   }
   showToast('toastB', 'Layout saved successfully');
 }
@@ -2134,7 +2178,7 @@ function onDragStart(e, idx) {
   const rows = document.querySelectorAll('.layout-row');
   const row = rows[idx];
   const rect = row.getBoundingClientRect();
-  const containerRect = document.getElementById('layoutRows').getBoundingClientRect();
+  const containerRect = document.getElementById('layoutReorderCard').getBoundingClientRect();
 
   dragState = {
     idx,
