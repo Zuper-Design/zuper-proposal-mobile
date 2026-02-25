@@ -1,0 +1,48 @@
+---
+description: UI foundational philosophy — affordances, cognitive load, emotional design, visual hierarchy, Gestalt laws
+alwaysApply: true
+---
+
+# UI Foundations
+
+## The Prime Directive (Don Norman)
+
+Every UI element must communicate: what it is (affordance), how to use it (signifier), what it will do (feedback), and why it exists (conceptual model). If a user guesses any of these, the design has failed.
+
+## Don't Make Me Think (Steve Krug)
+
+Users should never wonder: Where am I? What does this do? Is this clickable? Did that work? The moment cognitive effort appears, trust erodes. Clarity is the job.
+
+## Emotional Design — Three Levels
+
+- **Visceral**: Visual beauty, color, motion, first impression
+- **Behavioral**: Ease, efficiency, feedback, flow
+- **Reflective**: Brand, story, pride of ownership
+
+A flat UI only serves behavioral. Great UI serves all three.
+
+## Visual Hierarchy — The Architecture of Attention
+
+**Three-Weight Rule per screen:**
+- **Primary**: The one thing the user must see first. ONE per screen. Maximum weight.
+- **Secondary**: Supporting context. ~60% of primary weight.
+- **Tertiary**: Metadata, timestamps, labels. ~40% weight.
+
+**Weight is created by:** size, color saturation, font weight, position (top-left = first read), contrast against surroundings, whitespace.
+
+Use ONE weight mechanism between elements. All five simultaneously = visual shouting. None = visual silence.
+
+**The Contrast Trap:** Don't make everything important dark. Use soft colors for most things, reserve dark/saturated for what truly matters. Hierarchy comes from contrast between important and unimportant.
+
+## Gestalt Principles
+
+- **Proximity**: Close = related. Group related fields tightly (8px), separate sections generously (48px+). Every gap is a message.
+- **Similarity**: Same look = same function. All primary buttons identical. Mixing styles for same-function elements breaks trust.
+- **Continuity**: Align to invisible grid lines. Consistent left-edge alignment. Eye flows top-to-bottom, left-to-right.
+- **Closure**: Cards don't need full borders if shadow implies boundary. Partial visibility implies scrollability.
+- **Figure/Ground**: Only one layer can be foreground. Modals must dim everything behind them.
+- **Praegnanz**: Brain prefers simplest interpretation. Reduce to minimum viable complexity.
+
+## The Paradox of the Obvious
+
+What feels obvious to the designer is invisible to the user. You've read every screen 100 times. Your user reads it for the first time, under stress, on a phone, while doing something else. Design for them.

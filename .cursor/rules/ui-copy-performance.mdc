@@ -1,0 +1,64 @@
+---
+description: Microcopy standards, button/error/empty state copy, perceived performance techniques, design tokens, and the creative elevation checklist
+alwaysApply: true
+---
+
+# Microcopy & Performance
+
+## Voice Principles
+
+- **Clear over clever**: Users complete tasks, not appreciate wordplay
+- **Human over corporate**: "We couldn't find that" not "The requested resource was not located"
+- **Specific over vague**: "Save job details" not "Save"
+- **Action-first CTAs**: Start with verb — "Send invoice", "Add technician"
+- **Positive framing**: "Enter a valid email" not "Invalid email"
+- **Present tense**: "Job saved" not "Job has been saved"
+
+## Copy Patterns
+
+**Empty states:** Icon + descriptive message + primary action. Never just "No results found."
+**Errors:** What went wrong + how to fix + action buttons. Never "Something went wrong" alone.
+**Confirmations:** Name what's being affected + consequences + named action buttons. Never "Are you sure? OK / Cancel."
+**Button labels:** Verb + noun at page level ("Create Job"). Verb alone only in obvious context ("Save"). Never "Submit", "OK", "Yes/No."
+**Labels:** Sentence case, always visible (not placeholder-only). Plain language, no jargon.
+**Tooltips:** One sentence max. Explain what it does, not what it is. Supplementary only.
+
+## Response Time & Perceived Performance
+
+- < 100ms: feels instantaneous, no feedback needed
+- 100ms-1s: show loading state (button spinner, skeleton)
+- 1-10s: show progress with percentage or steps
+- > 10s: progress + allow background processing + notification
+
+**Techniques:**
+- Skeleton screens over spinners (feels 20-30% faster)
+- Optimistic UI: update immediately, sync in background, revert on failure
+- Progressive loading: above-the-fold first
+- Instant feedback: respond to all interactions within 100ms
+- Doherty Threshold: keep common operations under 400ms for flow state
+
+## Design Tokens
+
+Never hardcode visual values. Reference tokens:
+- Token names describe purpose (color.error), not value (color.red)
+- Token changes propagate everywhere — brand refresh = token update, not component hunt
+- Before building a new component, check if an atomic component can be composed
+
+## Creative Elevation Checklist
+
+Before any UI solution, verify:
+- One clear dominant element per screen?
+- Spacing follows base-8 scale?
+- Max 3 font sizes on single screen?
+- Color always paired with icon or label?
+- Every interactive element has all states (default, hover, focus, active, disabled)?
+- Feedback within 100ms?
+- Empty, error, success states designed (not afterthoughts)?
+- Disabled state explained?
+- Touch targets meet 44x44px?
+- Primary CTA in bottom thumb zone?
+- 3am field tech test passes?
+- Button labels start with verb?
+- Error messages tell what's wrong AND how to fix?
+- No jargon visible to end users?
+- At least one delightful detail per flow?

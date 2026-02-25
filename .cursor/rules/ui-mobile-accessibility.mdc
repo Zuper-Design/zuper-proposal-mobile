@@ -1,0 +1,71 @@
+---
+description: Mobile-first design principles, touch standards, gesture conventions, accessibility (WCAG POUR), and dark patterns to never implement
+alwaysApply: true
+---
+
+# Mobile-First & Accessibility
+
+## Mobile-First Mandate (Luke Wroblewski)
+
+Design for the most constrained context first. If it works on mobile, it works everywhere.
+
+**Constraints:** 375-428px width, touch only (imprecise, one/two thumbs), moving/distracted user, variable connection, seconds of attention.
+
+## Touch Targets
+
+- Apple HIG: 44x44pt minimum
+- Material Design: 48x48dp minimum
+- Comfortable: 56-64px for primary actions
+- Spacing between targets: min 8px to prevent mis-taps
+
+## Thumb Zone
+
+Primary actions and navigation: bottom center (natural zone). Secondary: middle. Destructive/rare: top corners (stretch zone).
+
+## Gesture Conventions (never override)
+
+- Swipe right: go back
+- Swipe left on item: contextual actions (delete, archive)
+- Swipe down: dismiss modal/sheet
+- Pull to refresh: refresh list
+- Long press: selection/bulk mode or context menu
+- Pinch: zoom
+- First-time users don't know custom gestures — use coach marks or visual hints
+
+## Offline & Poor Connection
+
+- Show connection status when offline
+- Cache critical content for offline viewing
+- Queue offline actions, sync when connected
+- Optimistic UI: assume success, revert on failure
+- Never let the app go blank — show last known state
+
+---
+
+## Accessibility — WCAG 2.1 (POUR)
+
+**Perceivable:** All images have alt text. Color alone never conveys info. Text contrast 4.5:1 (normal), 3:1 (large).
+
+**Operable:** All functionality via keyboard. No keyboard traps. Focus order logical. Touch targets 44x44px min.
+
+**Understandable:** Error messages identify issue and describe fix. Consistent navigation across pages.
+
+**Robust:** Valid HTML. ARIA roles used correctly. Status messages programmatically determinable.
+
+**Focus management:**
+- Visible focus ring on all interactive elements (never outline:none without replacement)
+- Modal opens: focus to first focusable element inside
+- Modal closes: focus returns to trigger
+- Dynamic content changes announced to screen readers
+
+**Accessible forms:** All inputs have `<label>`. Errors via `aria-describedby`. Required = both visual + `aria-required`. Autocomplete on common fields.
+
+**Accessible color:** Don't rely on color alone. Test with colorblindness simulators. Most common: red-green (supplement with icons).
+
+---
+
+## Dark Patterns — NEVER Implement
+
+Confirmshaming, roach motels, hidden costs, misdirection, bait-and-switch, disguised ads, forced continuity, privacy zuckering, trick questions (double-negative checkboxes).
+
+**The test:** Would you be embarrassed explaining this design decision directly to your user? If yes, it's a dark pattern.

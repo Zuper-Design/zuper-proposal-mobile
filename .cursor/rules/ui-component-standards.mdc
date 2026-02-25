@@ -1,0 +1,76 @@
+---
+description: Component design standards — buttons, forms, lists, tables, modals, navigation, and the complete state matrix
+alwaysApply: true
+---
+
+# Component Design Standards
+
+## Buttons
+
+**Hierarchy:** Primary (filled, brand color, ONE per screen) > Secondary (outlined/subtle) > Tertiary (text only) > Destructive (outlined red, never filled primary red) > Icon button (icon + tooltip).
+
+**Rules:**
+- Label: verb + noun ("Save Job", "Send Invoice"), never just "Submit" or "OK"
+- Min size: 44px mobile, 36px desktop
+- Never two primary buttons side by side
+- Width: full-width (mobile forms) or content-width (desktop), never arbitrary
+- Loading: replace label with spinner, maintain dimensions
+- Disabled: always explain WHY via tooltip or helper text
+
+**Destructive pattern:** Ghost button > confirmation dialog > require typed confirmation for permanent deletes > show what's affected > provide 30s undo toast where possible.
+
+## Forms
+
+**Golden rule:** Every field is a question that must earn its place. Each field reduces completion ~3%.
+
+- Single column always (two-column causes skipped fields)
+- Labels above fields, always visible (placeholder is NOT a label)
+- Input height: 48px mobile, 40px desktop
+- Width suggests expected length (narrow for postcode, wide for address)
+- Validate on blur, not keystroke. Inline errors below field, not at top.
+- Error format: what's wrong + how to fix ("Phone must be 10 digits — you entered 9")
+- Never clear valid fields on another field's error
+- Mark the minority: if most required, mark optional ones; if most optional, mark required
+
+## Lists & Tables
+
+- List row min height: 56px mobile
+- Clear hierarchy per row: primary (bold) > secondary > metadata
+- Numbers right-aligned, text left-aligned
+- Truncate at 1-2 lines max
+- Empty lists: icon + message + action
+- Mobile tables: transform to cards or horizontal scroll, never shrink to illegibility
+
+## Modals & Overlays
+
+**Spectrum (least to most blocking):** Toast > Tooltip > Popover > Bottom sheet > Side panel > Dialog > Full-screen modal.
+
+- Only block when necessary (irreversible confirmation, focused task)
+- Always: clear dismiss (x, Escape, click outside)
+- Never modal-from-modal
+- Mobile: bottom sheets over centered modals (thumb-friendly)
+- Toasts: auto-dismiss 4-6s, include undo where possible, max 3 stacked
+
+## Navigation
+
+**Bottom nav (mobile):** 3-5 items max. Active = filled icon + label + color. Inactive = outline + grey. Always visible.
+**Sidebar:** 240-280px expanded, 60-72px collapsed. Max 2 nesting levels. Current location highlighted.
+**Breadcrumbs:** Use when depth > 2. Current page = last item, not a link.
+
+## The Complete State Matrix
+
+Every component MUST have all states designed:
+
+- **Default**: Resting state
+- **Hover**: Desktop only, subtle background change
+- **Focus**: Visible focus ring (WCAG), keyboard navigation
+- **Active**: Being pressed, darker, slight scale down
+- **Selected**: Chosen from a set, fill or check
+- **Loading**: Skeleton or spinner
+- **Disabled**: 40-60% opacity, no pointer, ALWAYS explain WHY
+- **Error**: Red border/text, error message below
+- **Success**: Green indicator, brief confirmation
+- **Empty**: Icon + message + primary action
+- **Skeleton**: Animated grey blocks matching content shape
+
+A disabled element without explanation is a confusion machine. Always answer: why disabled, what enables it?

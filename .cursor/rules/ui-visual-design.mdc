@@ -1,0 +1,62 @@
+---
+description: Visual design standards — spacing scale, typography rules, color system, iconography
+alwaysApply: true
+---
+
+# Visual Design Standards
+
+## Spacing — Base-8 System
+
+Never use arbitrary values. Every spacing decision from this scale:
+
+- 4px — micro (icon padding, badge offset)
+- 8px — tight (related inline elements)
+- 12px — compact (dense list items)
+- 16px — default (standard padding, related elements)
+- 24px — comfortable (section padding, grouped elements)
+- 32px — loose (section separation)
+- 48px — spacious (major section breaks)
+- 64px — generous (page-level breathing room)
+
+Related items: 8-16px. Grouped sections: 24-32px. Unrelated sections: 48px+. Never 13px, 22px, 37px, or any off-scale value.
+
+Whitespace is not empty space — it creates focus, breathing room, and elegance. Crowded UIs feel cheap.
+
+## Typography
+
+**Scale:** 12px (captions) / 14px (labels) / 16px (body) / 18px (subheadings) / 24px (section headings) / 32px (page titles)
+
+**Line length:** 45-75 characters optimal. Mobile: 35-50 acceptable.
+**Line height:** Body 1.5x, headings 1.2x, captions 1.4x.
+**Weights:** Max 3 per product: regular (400), medium (500), semibold (600).
+**Letter spacing:** 0 for body. +0.05em for ALL CAPS labels. Slightly negative for display headings.
+**Rules:** Max 2 typefaces. Size + weight + color creates hierarchy — never change all three simultaneously.
+
+## Color System
+
+**Architecture:** Brand (2-3), Neutrals (5-7), Semantic (4: green/yellow/red/blue), Surfaces (3-4).
+
+**60-30-10 Rule:** 60% dominant neutral, 30% secondary, 10% accent/brand.
+
+**Rules:**
+- Never use color as the only differentiator (8% of men are colorblind)
+- Always pair: color + icon, color + label
+- Red = error/danger only, never just "important"
+- Contrast: 4.5:1 normal text, 3:1 large text (WCAG 2.1)
+- Dark mode: redesign, don't invert. Use #121212 base, reduce saturation, elevate with lighter surfaces not shadows.
+
+## Iconography
+
+**Sizes:** 16px (info), 20px (inline action), 24px (standalone), 32px (empty states).
+**Touch target:** Always 44x44px minimum regardless of visual size.
+**Consistency:** Never mix outline, filled, and duotone on same screen.
+**Labels:** Icons alone only for universal symbols (close, search, back). Otherwise always icon + label.
+**Color:** Decorative = text color. Status = semantic color. Interactive = primary color. Disabled = 40% opacity.
+
+## The Grid
+
+- Mobile: 4 columns, 16px gutters, 16px margins
+- Tablet: 8 columns, 16px gutters, 24px margins
+- Desktop: 12 columns, 24px gutters, 32-64px margins
+- All text on baseline grid (4px or 8px multiples)
+- Break the grid only intentionally and rarely — one break creates emphasis, everything breaking creates chaos

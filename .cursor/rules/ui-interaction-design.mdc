@@ -1,0 +1,59 @@
+---
+description: Interaction design — UX laws (Fitts, Hick, Miller, Jakob, Tesler), affordances, feedback, microinteractions, animation
+alwaysApply: true
+---
+
+# Interaction Design Laws & Patterns
+
+## Fitts's Law — Target Size & Distance
+
+Important actions get the largest targets. Primary CTAs: full-width or min 48px height. Destructive actions get small targets deliberately. Put frequent actions at screen edges (infinite target). Mobile thumb zone: primary actions bottom-center, destructive actions top corners.
+
+## Hick's Law — Choice Overload
+
+Decision time increases with number of choices. Max 5-7 primary options at once. Navigation: 5 ideal, 7 max. Bottom nav: 3-5 items (5 hard limit). When choices exceed 7, group and nest (max 2 levels). Progressive disclosure: common options first, advanced on demand.
+
+## Miller's Law — Working Memory (7 +/- 2)
+
+Lists > 7 need search/filter. Forms > 7 fields need sections or multi-step. Navigation > 3 levels deep exceeds cognitive load. Chunk information into groups of 3-5.
+
+## Jakob's Law — User Expectations
+
+Users expect your app to work like others they use. Cart top-right, search top-center, logo top-left = home, nav top (desktop) or bottom (mobile). Innovate in content and value, not navigation structure.
+
+## Tesler's Law — Conservation of Complexity
+
+Complexity can only be transferred, not removed. Smart defaults transfer complexity to the product (good). Required config fields transfer it to the user (bad). "Simple" UI that breaks on edge cases just moved complexity to error states.
+
+## Peak-End Rule — Memory
+
+People remember the peak (most intense moment) and the end. Make success states satisfying. Prioritize eliminating worst moments over optimizing average ones.
+
+## Affordances, Signifiers, Feedback
+
+- Every interactive element needs a visible signifier before interaction
+- Feedback must be immediate (< 100ms visual, < 1s operation)
+- > 1s: show loading state. > 10s: show progress + allow cancel
+- Silent actions (no feedback) destroy trust
+- Flat design removed signifiers — compensate with color contrast, underlines, clear labels, hover states
+
+## Microinteractions (Dan Saffer)
+
+Four parts: Trigger, Rules, Feedback, Loops/Modes. Match feedback weight to action weight. One delightful micro-interaction per flow = memorable. Never skip feedback for destructive/irreversible actions.
+
+## Animation Standards
+
+**Easing:**
+- ease-in-out: state transitions
+- ease-out: elements entering (decelerating into place)
+- ease-in: elements leaving (accelerating out)
+- linear: ONLY continuous motion (spinners, progress)
+
+**Duration:**
+- 50-100ms: micro feedback (button press, toggle)
+- 150-250ms: small transitions (dropdown, tooltip)
+- 250-400ms: medium transitions (panel slide, modal)
+- 400-600ms: large transitions (page change)
+- 600ms+: cinematic, use sparingly
+
+Every animation communicates something. If it communicates nothing, remove it.
