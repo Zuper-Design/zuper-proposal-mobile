@@ -1159,13 +1159,35 @@ img { display: block; }
   -webkit-overflow-scrolling: touch;
 }
 .sc-images-strip::-webkit-scrollbar { display: none; }
-.sc-images-strip img {
+.sc-strip-item {
+  position: relative;
+  flex-shrink: 0;
+}
+.sc-strip-item img {
   width: 60px;
   height: 60px;
   border-radius: 8px;
   object-fit: cover;
-  flex-shrink: 0;
+  display: block;
 }
+.sc-strip-delete {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--ink-lighter);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.15s;
+}
+.sc-strip-delete:active { background: var(--ink-light); }
+
 
 
 .gallery-save-footer {
@@ -2374,12 +2396,26 @@ function updateSelectedStrip() {
   stripWrap.style.display = 'block';
   badge.textContent = state.selectedImages.size + ' selected';
   strip.innerHTML = '';
+  const closeSvg = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
   state.selectedImages.forEach(idx => {
-    const img = document.createElement('img');
-    img.src = state.jobImages[idx];
-    img.alt = 'Selected photo';
-    strip.appendChild(img);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'sc-strip-item';
+    wrapper.innerHTML = `
+      <img src="${state.jobImages[idx]}" alt="Selected photo">
+      <div class="sc-strip-delete" data-remove-img="${idx}">${closeSvg}</div>
+    `;
+    wrapper.querySelector('.sc-strip-delete').addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeSelectedImage(idx);
+    });
+    strip.appendChild(wrapper);
   });
+}
+
+function removeSelectedImage(idx) {
+  state.selectedImages.delete(idx);
+  updateSelectedStrip();
+  updatePhotoButton();
 }
 
 function saveGallery() {
