@@ -410,6 +410,12 @@ img { display: block; }
   width: 100%;
 }
 .btn-primary:active { opacity: 0.9; }
+.btn-primary:disabled {
+  background: var(--cloud-dark);
+  color: var(--ink-lighter);
+  cursor: default;
+  pointer-events: none;
+}
 .btn-primary-subtle {
   display: flex;
   align-items: center;
@@ -1825,7 +1831,7 @@ img { display: block; }
       </div>
 
       <div class="gallery-save-footer">
-        <button class="btn-primary" onclick="saveGallery()">Save Changes</button>
+        <button class="btn-primary" id="gallerySaveBtn" onclick="saveGallery()" disabled>Save Changes</button>
       </div>
       <div class="home-indicator"><div class="home-indicator-bar"></div></div>
 
@@ -1954,10 +1960,12 @@ function goBackToA() {
 }
 function goToScreenC() {
   state.currentScreen = 'C';
+  snapshotGalleryState();
   renderLayoutStyleOptions();
   updateSelectedStrip();
   updatePhotoButton();
   updateImageSectionMode();
+  updateSaveBtn();
   setScreenClasses('hidden-left', 'left', 'active', 'right');
 }
 function goBackToB() {
@@ -2131,7 +2139,31 @@ function onDragEnd() {
 /* ================================================================
    SCREEN C: GALLERY CONFIGURATION
    ================================================================ */
+let gallerySnapshot = null;
 
+function snapshotGalleryState() {
+  gallerySnapshot = {
+    layoutStyle: state.selectedLayoutStyle,
+    selectedImages: new Set(state.selectedImages),
+    imagePairs: JSON.stringify(state.imagePairs),
+  };
+}
+
+function hasGalleryChanged() {
+  if (!gallerySnapshot) return false;
+  if (state.selectedLayoutStyle !== gallerySnapshot.layoutStyle) return true;
+  if (state.selectedImages.size !== gallerySnapshot.selectedImages.size) return true;
+  for (const idx of state.selectedImages) {
+    if (!gallerySnapshot.selectedImages.has(idx)) return true;
+  }
+  if (JSON.stringify(state.imagePairs) !== gallerySnapshot.imagePairs) return true;
+  return false;
+}
+
+function updateSaveBtn() {
+  const btn = document.getElementById('gallerySaveBtn');
+  if (btn) btn.disabled = !hasGalleryChanged();
+}
 
 function updatePhotoButton() {
   const wrap = document.getElementById('selectedPreviewWrap');
@@ -2171,6 +2203,7 @@ function renderLayoutStyleOptions() {
       state.selectedLayoutStyle = style;
       renderLayoutStyleOptions();
       updateImageSectionMode();
+      updateSaveBtn();
     });
     container.appendChild(card);
   });
@@ -2235,6 +2268,7 @@ function renderPairs() {
         e.stopPropagation();
         state.imagePairs.splice(idx, 1);
         renderPairs();
+        updateSaveBtn();
       });
     }
 
@@ -2245,6 +2279,7 @@ function renderPairs() {
 function addPair() {
   state.imagePairs.push({ before: null, after: null });
   renderPairs();
+  updateSaveBtn();
 }
 
 function openSlotPicker() {
@@ -2288,6 +2323,7 @@ function renderSlotGrid() {
       closeImagePicker();
       state.slotPickerTarget = null;
       renderPairs();
+      updateSaveBtn();
     });
     grid.appendChild(item);
   });
@@ -2332,6 +2368,7 @@ function renderImageGrid() {
 function confirmImageSelection() {
   closeImagePicker();
   updateSelectedStrip();
+  updateSaveBtn();
 }
 function updateSelectedStrip() {
   const grid = document.getElementById('selectedPreviewGrid');
@@ -2370,6 +2407,7 @@ function removeSelectedImage(idx) {
   state.selectedImages.delete(idx);
   updateSelectedStrip();
   updatePhotoButton();
+  updateSaveBtn();
 }
 
 function saveGallery() {
@@ -2396,6 +2434,8 @@ function saveGallery() {
   }
 
   showToast('toastC', 'Changes saved successfully');
+  snapshotGalleryState();
+  updateSaveBtn();
 }
 
 /* ================================================================
