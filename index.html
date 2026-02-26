@@ -761,6 +761,8 @@ img { display: block; }
   min-height: 60px;
 }
 .layout-row + .layout-row { border-top: 1px solid var(--cloud-normal); }
+.layout-row.hidden-page .layout-row-icon,
+.layout-row.hidden-page .layout-row-text { opacity: 0.35; }
 .layout-row.dragging {
 
   box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
@@ -1108,34 +1110,36 @@ img { display: block; }
 }
 .sbs-pair-card { position: relative; }
 
-/* Image thumbnails strip */
-.sc-images-strip {
+/* Image preview grid (layout-aware) */
+.sc-preview-grid {
+  display: grid;
+  gap: 6px;
   padding: 12px 0 0;
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
-.sc-images-strip::-webkit-scrollbar { display: none; }
-.sc-strip-item {
+.sc-preview-grid.grid-standard { grid-template-columns: repeat(3, 1fr); }
+.sc-preview-grid.grid-wide { grid-template-columns: repeat(2, 1fr); }
+.sc-preview-grid.grid-full { grid-template-columns: 1fr; }
+.sc-preview-item {
   position: relative;
-  flex-shrink: 0;
-}
-.sc-strip-item img {
-  width: 60px;
-  height: 60px;
   border-radius: 8px;
+  overflow: hidden;
+}
+.sc-preview-item img {
+  width: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
   display: block;
 }
-.sc-strip-delete {
+.sc-preview-grid.grid-wide .sc-preview-item img { aspect-ratio: 16/10; }
+.sc-preview-grid.grid-full .sc-preview-item img { aspect-ratio: 16/9; }
+.sc-preview-delete {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 20px;
-  height: 20px;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: var(--ink-lighter);
+  background: rgba(0,0,0,0.5);
   color: #fff;
   display: flex;
   align-items: center;
@@ -1144,7 +1148,7 @@ img { display: block; }
   z-index: 2;
   transition: background 0.15s;
 }
-.sc-strip-delete:active { background: var(--ink-light); }
+.sc-preview-delete:active { background: rgba(0,0,0,0.7); }
 
 
 
@@ -1801,8 +1805,8 @@ img { display: block; }
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </span>
             </div>
-            <div id="selectedStripWrap" style="display:none;">
-              <div id="selectedStrip" class="sc-images-strip"></div>
+            <div id="selectedPreviewWrap" style="display:none;">
+              <div id="selectedPreviewGrid" class="sc-preview-grid grid-standard"></div>
             </div>
           </div>
 
@@ -1881,6 +1885,7 @@ const state = {
     { id: 'scope',      name: 'Scope of Work',       active: true,  locked: false },
     { id: 'lineItems',  name: 'Line Items',          active: true,  locked: false },
     { id: 'gallery',    name: 'Job Image Gallery',   active: true,  locked: false },
+    { id: 'checklist',  name: 'Job Checklist',       active: true,  locked: false },
     { id: 'terms',      name: 'Terms & Conditions',  active: true,  locked: false },
     { id: 'signature',  name: 'Signature',           active: true,  locked: true },
   ],
@@ -1908,6 +1913,7 @@ const pageIcons = {
   scope: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>',
   lineItems: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
   gallery: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
+  checklist: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>',
   terms: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
   signature: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
 };
@@ -1991,7 +1997,7 @@ function renderLayoutRows() {
 
 function buildRow(page, idx, isConfigurable) {
   const row = document.createElement('div');
-  row.className = 'layout-row';
+  row.className = 'layout-row' + (!page.active ? ' hidden-page' : '');
   row.dataset.index = idx;
   row.dataset.id = page.id;
 
@@ -1999,11 +2005,7 @@ function buildRow(page, idx, isConfigurable) {
 
   const isCover = page.id === 'cover';
 
-  const statusParts = [];
-  if (!page.active) statusParts.push('<span class="status-dot inactive"></span>Hidden');
-  const statusHtml = statusParts.length > 0
-    ? `<div class="row-status">${statusParts.join(' · ')}</div>`
-    : '';
+  const statusHtml = '';
 
   const eyeOpenSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
   const eyeClosedSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/><path d="M14.12 14.12a3 3 0 11-4.24-4.24"/></svg>';
@@ -2132,13 +2134,13 @@ function onDragEnd() {
 
 
 function updatePhotoButton() {
-  const stripWrap = document.getElementById('selectedStripWrap');
+  const wrap = document.getElementById('selectedPreviewWrap');
   const badge = document.getElementById('photoCountBadge');
   if (state.selectedImages.size > 0) {
-    stripWrap.style.display = 'block';
-    badge.textContent = state.selectedImages.size + ' selected';
+    wrap.style.display = 'block';
+    badge.textContent = state.selectedImages.size + ' photos';
   } else {
-    stripWrap.style.display = 'none';
+    wrap.style.display = 'none';
     badge.textContent = '';
   }
 }
@@ -2178,7 +2180,11 @@ function updateImageSectionMode() {
   const isSBS = state.selectedLayoutStyle === 'Side-by-Side';
   document.getElementById('standardImagePicker').style.display = isSBS ? 'none' : '';
   document.getElementById('pairedImagePicker').style.display = isSBS ? '' : 'none';
-  if (isSBS) renderPairs();
+  if (isSBS) {
+    renderPairs();
+  } else {
+    updateSelectedStrip();
+  }
 }
 
 /* Side-by-Side: Paired images */
@@ -2328,31 +2334,35 @@ function confirmImageSelection() {
   updateSelectedStrip();
 }
 function updateSelectedStrip() {
-  const strip = document.getElementById('selectedStrip');
-  const stripWrap = document.getElementById('selectedStripWrap');
+  const grid = document.getElementById('selectedPreviewGrid');
+  const wrap = document.getElementById('selectedPreviewWrap');
   const badge = document.getElementById('photoCountBadge');
   if (state.selectedImages.size === 0) {
-    stripWrap.style.display = 'none';
-    strip.innerHTML = '';
+    wrap.style.display = 'none';
+    grid.innerHTML = '';
     badge.textContent = '';
     return;
   }
-  stripWrap.style.display = 'block';
-  badge.textContent = state.selectedImages.size + ' selected';
-  strip.innerHTML = '';
+  wrap.style.display = 'block';
+  badge.textContent = state.selectedImages.size + ' photos';
+
+  const styleMap = { 'Standard Grid': 'grid-standard', 'Wide Format': 'grid-wide', 'Full Width': 'grid-full' };
+  grid.className = 'sc-preview-grid ' + (styleMap[state.selectedLayoutStyle] || 'grid-standard');
+
+  grid.innerHTML = '';
   const closeSvg = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
   state.selectedImages.forEach(idx => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'sc-strip-item';
-    wrapper.innerHTML = `
+    const item = document.createElement('div');
+    item.className = 'sc-preview-item';
+    item.innerHTML = `
       <img src="${state.jobImages[idx]}" alt="Selected photo">
-      <div class="sc-strip-delete" data-remove-img="${idx}">${closeSvg}</div>
+      <div class="sc-preview-delete">${closeSvg}</div>
     `;
-    wrapper.querySelector('.sc-strip-delete').addEventListener('click', (e) => {
+    item.querySelector('.sc-preview-delete').addEventListener('click', (e) => {
       e.stopPropagation();
       removeSelectedImage(idx);
     });
-    strip.appendChild(wrapper);
+    grid.appendChild(item);
   });
 }
 
@@ -2425,6 +2435,23 @@ function buildPageContent(id) {
 
     case 'gallery':
       return renderGalleryPage();
+
+    case 'checklist':
+      return `${label}Job Checklist</div>
+        <div class="pv-scope">
+          <h3>Job Checklist</h3>
+          <div style="font-size:10px;color:var(--ink-light);line-height:2;">
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green-normal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Pre-job site inspection completed</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green-normal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Existing shingles &amp; underlayment removed</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green-normal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Decking inspected &amp; damaged sections replaced</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg> Ice &amp; water shield installed at eaves/valleys</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg> Synthetic underlayment applied</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg> Shingles installed per manufacturer specs</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg> Ridge vent &amp; cap shingles installed</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg> Final cleanup &amp; magnetic nail sweep</div>
+            <div style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg> Homeowner walkthrough &amp; sign-off</div>
+          </div>
+        </div>`;
 
     case 'terms':
       return `${label}Terms &amp; Conditions</div>
