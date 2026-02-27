@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quotation #10000 13930 — ACME Roofing Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --page-w: 794px;
+  --page-min-h: 1122px;
+  --pad-x: 48px;
+  --blue: #1976D2;
+  --blue-light: #E3F2FD;
+  --ink: #111827;
+  --ink-secondary: #374151;
+  --ink-tertiary: #6B7280;
+  --ink-placeholder: #9CA3AF;
+  --border: #E5E7EB;
+  --border-light: #F3F4F6;
+  --surface: #F9FAFB;
+  --white: #FFFFFF;
+  --red: #DC2626;
+  --indigo: #4F46E5;
+  --indigo-light: #EEF2FF;
+  --radius: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #EAECF0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 32px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* ===== PAGE SHELL ===== */
+.page {
+  width: 100%;
+  max-width: var(--page-w);
+  min-height: var(--page-min-h);
+  background: var(--white);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== COMPANY HEADER ===== */
+.co-header {
+  display: flex;
+  align-items: center;
+  padding: 28px var(--pad-x);
+  border-bottom: 1px solid var(--border);
+}
+.co-logo {
+  flex-shrink: 0;
+  margin-right: 40px;
+}
+.co-logo-name {
+  font-size: 30px;
+  font-weight: 900;
+  font-style: italic;
+  color: #B71C1C;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.co-logo-tagline {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--ink-tertiary);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.co-meta {
+  display: flex;
+  gap: 48px;
+  margin-left: auto;
+}
+.co-meta-block {}
+.co-meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+.co-meta-value {
+  font-size: 12.5px;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+}
+
+/* ===== PAGE BODY ===== */
+.page-body {
+  flex: 1;
+  padding: 0 var(--pad-x);
+}
+
+/* ===== QUOTE INTRO (page 1) ===== */
+.q-intro { padding: 32px 0 28px; }
+.q-recipient {
+  font-size: 12.5px;
+  color: var(--ink-tertiary);
+  line-height: 1.6;
+}
+.q-recipient strong {
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.q-title {
+  font-size: 44px;
+  font-weight: 300;
+  color: #D1D5DB;
+  text-align: center;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin: 20px 0 24px;
+}
+
+/* Blue metadata bar */
+.q-meta-bar {
+  display: flex;
+  background: var(--blue);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.q-meta-cell {
+  flex: 1;
+  padding: 12px 20px;
+  text-align: center;
+}
+.q-meta-cell + .q-meta-cell {
+  border-left: 1px solid rgba(255,255,255,0.2);
+}
+.q-meta-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.q-meta-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  margin-top: 3px;
+  letter-spacing: 0.2px;
+}
+
+/* ===== ITEMS TABLE ===== */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+}
+.page-body > .tbl:first-child { margin-top: 28px; }
+
+.tbl thead th {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 16px;
+  text-align: left;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.tbl thead th.ar { text-align: right; }
+.tbl thead th.ac { text-align: center; }
+
+.tbl td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--ink);
+  vertical-align: top;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--border-light);
+}
+.tbl td.ar { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl td.ac { text-align: center; }
+.tbl tbody tr:last-child td { border-bottom: 1px solid var(--border); }
+
+/* Column widths */
+.tbl .col-item { width: 44%; }
+.tbl .col-price { width: 20%; }
+.tbl .col-qty { width: 12%; }
+.tbl .col-total { width: 24%; }
+
+/* ---------- Section header ---------- */
+.sec-header td {
+  padding: 10px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.3px;
+}
+
+/* ---------- Bundle parent ---------- */
+.bun-parent td {
+  background: #FAFBFF;
+  border-bottom: 1px solid #EBEDF2;
+}
+.bun-parent td:first-child {
+  font-weight: 600;
+}
+.bun-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--indigo);
+  background: var(--indigo-light);
+  padding: 2px 8px 2px 6px;
+  border-radius: 10px;
+  margin-left: 8px;
+  vertical-align: middle;
+  line-height: 1;
+}
+.bun-badge svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+/* ---------- Bundle child ---------- */
+.bun-child td {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--ink-secondary);
+}
+.bun-child td:first-child {
+  padding-left: 36px;
+  position: relative;
+}
+.bun-child td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #E0E2E8;
+}
+.bun-child .child-name {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--ink-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bun-child .child-name::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #C4C8D0;
+  flex-shrink: 0;
+}
+.bun-child td.ar { color: var(--ink-tertiary); font-size: 12.5px; }
+
+/* Regular item */
+.item-title { font-weight: 500; color: var(--ink); }
+.item-desc {
+  font-size: 12px;
+  color: var(--ink-tertiary);
+  margin-top: 6px;
+  line-height: 1.7;
+}
+.item-sub-price {
+  font-size: 11.5px;
+  color: var(--ink-tertiary);
+  margin-top: 2px;
+}
+
+/* ===== PAGE 3: BOTTOM SECTION ===== */
+.bottom-section {
+  display: flex;
+  gap: 32px;
+  margin-top: 28px;
+  align-items: flex-start;
+}
+.bottom-note {
+  flex: 1;
+  padding: 16px;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: var(--radius);
+}
+.bottom-note-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #92400E;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.bottom-note-body {
+  font-size: 12px;
+  color: #78350F;
+  line-height: 1.65;
+}
+
+.bottom-summary { flex: 1; }
+.sum-tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+.sum-tbl td {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--border-light);
+}
+.sum-tbl td:first-child {
+  font-weight: 500;
+  color: var(--ink-secondary);
+}
+.sum-tbl td:last-child {
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.sum-tbl .row-grand td {
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 16px;
+  border-bottom: none;
+  border-radius: 4px;
+}
+.sum-tbl .row-grand td:first-child { border-radius: 4px 0 0 4px; }
+.sum-tbl .row-grand td:last-child { border-radius: 0 4px 4px 0; }
+.sum-tbl .row-deposit td {
+  font-weight: 500;
+  color: var(--ink-secondary);
+}
+.sum-tbl .row-status td:last-child {
+  color: var(--red);
+  font-weight: 700;
+}
+
+/* ===== TERMS ===== */
+.terms-section {
+  margin-top: 28px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+.terms-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.terms-list {
+  list-style: none;
+  counter-reset: tc;
+}
+.terms-list li {
+  counter-increment: tc;
+  font-size: 11.5px;
+  color: var(--ink-tertiary);
+  line-height: 1.65;
+  padding: 4px 0 4px 24px;
+  position: relative;
+}
+.terms-list li::before {
+  content: counter(tc) ".";
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+/* ===== FOOTER ===== */
+.page-foot {
+  padding: 16px var(--pad-x) 20px;
+  margin-top: auto;
+}
+.page-foot-inner {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--ink-placeholder);
+  letter-spacing: 0.3px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  :root { --pad-x: 24px; }
+  body { padding: 12px 8px; gap: 16px; }
+  .page { min-height: auto; }
+  .co-header { flex-wrap: wrap; padding: 20px var(--pad-x); gap: 16px; }
+  .co-meta { gap: 24px; }
+  .q-title { font-size: 28px; letter-spacing: 3px; }
+  .bottom-section { flex-direction: column; }
+  .tbl .col-item { width: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================== PAGE 1 ======================== -->
+<div class="page">
+  <header class="co-header">
+    <div class="co-logo">
+      <div class="co-logo-name">ACME</div>
+      <div class="co-logo-tagline">Roofing Co.</div>
+    </div>
+    <div class="co-meta">
+      <div class="co-meta-block">
+        <div class="co-meta-label">Contact</div>
+        <div class="co-meta-value">estimates@acmeroofing.co<br>(718) 555-0192</div>
+      </div>
+      <div class="co-meta-block">
+        <div class="co-meta-label">Address</div>
+        <div class="co-meta-value">1353 New York Avenue, Brooklyn,<br>NY 11203</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-body">
+    <div class="q-intro">
+      <div class="q-recipient">
+        Quote To<br>
+        <strong>James &amp; Linda Patterson</strong><br>
+        742 Oakwood Drive, Brooklyn, NY 11225
+      </div>
+      <div class="q-title">Quotation</div>
+      <div class="q-meta-bar">
+        <div class="q-meta-cell">
+          <div class="q-meta-label">Quote Date</div>
+          <div class="q-meta-value">27/02/2026</div>
+        </div>
+        <div class="q-meta-cell">
+          <div class="q-meta-label">Expiry Date</div>
+          <div class="q-meta-value">28/02/2026</div>
+        </div>
+        <div class="q-meta-cell">
+          <div class="q-meta-label">Quote No</div>
+          <div class="q-meta-value">#10000 13930</div>
+        </div>
+      </div>
+    </div>
+
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th class="col-item">Item</th>
+          <th class="col-price ar">Price</th>
+          <th class="col-qty ac">Qty</th>
+          <th class="col-total ar">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sec-header"><td colspan="4">Roof Tear-Off &amp; Replacement</td></tr>
+        <tr>
+          <td>
+            <div class="item-title">Complete Roof Replacement — Architectural Shingles</div>
+            <div class="item-desc">
+              ☑ Protect all landscaping, siding &amp; windows with tarps during tear-off<br>
+              ☑ Remove existing roof system down to decking; inspect &amp; replace damaged decking<br>
+              ☑ Install GAF FeltBuster synthetic underlayment over entire roof deck<br>
+              ☑ Install new step-flashing &amp; counter-flashing at all wall-to-roof transitions<br>
+              ☑ Complete gutter cleaning &amp; debris removal after job is complete<br>
+              ☑ Multiple magnet sweeps of yard &amp; driveway during/after replacement
+            </div>
+          </td>
+          <td class="ar">
+            USD 15,580.00<br>
+            <span class="item-sub-price">Discount – 10%</span>
+          </td>
+          <td class="ac">1</td>
+          <td class="ar">USD 17,138.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="page-foot">
+    <div class="page-foot-inner">Page 1 of 3</div>
+  </footer>
+</div>
+
+<!-- ======================== PAGE 2 ======================== -->
+<div class="page">
+  <header class="co-header">
+    <div class="co-logo">
+      <div class="co-logo-name">ACME</div>
+      <div class="co-logo-tagline">Roofing Co.</div>
+    </div>
+    <div class="co-meta">
+      <div class="co-meta-block">
+        <div class="co-meta-label">Contact</div>
+        <div class="co-meta-value">estimates@acmeroofing.co<br>(718) 555-0192</div>
+      </div>
+      <div class="co-meta-block">
+        <div class="co-meta-label">Address</div>
+        <div class="co-meta-value">1353 New York Avenue, Brooklyn,<br>NY 11203</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-body">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th class="col-item">Item</th>
+          <th class="col-price ar">Price</th>
+          <th class="col-qty ac">Qty</th>
+          <th class="col-total ar">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="item-title">Ridge Vent &amp; Attic Ventilation System</div>
+            <div class="item-desc">
+              GAF Cobra Snow Country Advanced ridge vent — full ridge length. Remove existing ridge caps and cut ridge opening to manufacturer spec. Install balanced intake ventilation at soffit/eave areas. Ensure minimum 1 sq. ft. net free area per 150 sq. ft. of attic space. Seal all penetrations with weatherproof flashing boots.<br><br>
+              Professional installation by certified crew. Post-install airflow verification &amp; thermal imaging scan. Manufacturer's warranty: Lifetime limited. Labor warranty: 2 years. Removal &amp; disposal of old ridge material included.
+            </div>
+          </td>
+          <td class="ar">USD 1,200.00</td>
+          <td class="ac">1</td>
+          <td class="ar">USD 1,200.00</td>
+        </tr>
+
+        <tr class="sec-header"><td colspan="4">Materials &amp; Accessories</td></tr>
+
+        <tr class="bun-parent">
+          <td>
+            <span class="item-title">Premium Shingle Package — Charcoal</span>
+            <span class="bun-badge"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z"/></svg>Bundle</span>
+          </td>
+          <td class="ar">USD 1,749.98</td>
+          <td class="ac">1</td>
+          <td class="ar">USD 1,749.98</td>
+        </tr>
+        <tr class="bun-child">
+          <td><div class="child-name">GAF Timberline HDZ Architectural Shingles</div></td>
+          <td class="ar"></td>
+          <td class="ac">1</td>
+          <td class="ar"></td>
+        </tr>
+        <tr class="bun-child">
+          <td><div class="child-name">GAF TimberTex Premium Ridge Cap Shingles</div></td>
+          <td class="ar"></td>
+          <td class="ac">1</td>
+          <td class="ar"></td>
+        </tr>
+        <tr class="bun-child">
+          <td><div class="child-name">GAF FeltBuster Synthetic Underlayment</div></td>
+          <td class="ar"></td>
+          <td class="ac">1</td>
+          <td class="ar"></td>
+        </tr>
+        <tr class="bun-child">
+          <td><div class="child-name">Aluminum Drip Edge Flashing (10 ft. sections)</div></td>
+          <td class="ar"></td>
+          <td class="ac">1</td>
+          <td class="ar"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="page-foot">
+    <div class="page-foot-inner">Page 2 of 3</div>
+  </footer>
+</div>
+
+<!-- ======================== PAGE 3 ======================== -->
+<div class="page">
+  <header class="co-header">
+    <div class="co-logo">
+      <div class="co-logo-name">ACME</div>
+      <div class="co-logo-tagline">Roofing Co.</div>
+    </div>
+    <div class="co-meta">
+      <div class="co-meta-block">
+        <div class="co-meta-label">Contact</div>
+        <div class="co-meta-value">estimates@acmeroofing.co<br>(718) 555-0192</div>
+      </div>
+      <div class="co-meta-block">
+        <div class="co-meta-label">Address</div>
+        <div class="co-meta-value">1353 New York Avenue, Brooklyn,<br>NY 11203</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-body">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th class="col-item">Item</th>
+          <th class="col-price ar">Price</th>
+          <th class="col-qty ac">Qty</th>
+          <th class="col-total ar">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bun-parent">
+          <td>
+            <span class="item-title">Flashing &amp; Sealant Kit</span>
+            <span class="bun-badge"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z"/></svg>Bundle</span>
+          </td>
+          <td class="ar">USD 518.78</td>
+          <td class="ac">1</td>
+          <td class="ar">USD 518.78</td>
+        </tr>
+        <tr class="bun-child">
+          <td><div class="child-name">Lead Pipe Boot Flashing (assorted sizes)</div></td>
+          <td class="ar">USD 99.99</td>
+          <td class="ac">1</td>
+          <td class="ar">USD 99.99</td>
+        </tr>
+        <tr class="bun-child">
+          <td><div class="child-name">Galvanized Step &amp; Counter Flashing Set</div></td>
+          <td class="ar">USD 149.99</td>
+          <td class="ac">1</td>
+          <td class="ar">USD 149.99</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="item-title">Portable Job-Site Generator Rental</div>
+          </td>
+          <td class="ar">USD 240.00<br><span class="item-sub-price">Rental discount – 12%</span></td>
+          <td class="ac">1</td>
+          <td class="ar">USD 268.80</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="bottom-section">
+      <div class="bottom-note">
+        <div class="bottom-note-title">Important Note</div>
+        <div class="bottom-note-body">Price includes full tear-off of one existing layer, haul-away of all debris, and installation of new roof system. Any wood rot or decking damage discovered during tear-off will be repaired at $85/sheet (4×8 OSB) and communicated before proceeding. Homeowner is responsible for moving vehicles from driveway on scheduled work days.</div>
+      </div>
+      <div class="bottom-summary">
+        <table class="sum-tbl">
+          <tr>
+            <td>Sub Total</td>
+            <td>USD 19,418.76</td>
+          </tr>
+          <tr>
+            <td>Sales Tax (8.875%)</td>
+            <td>USD 1,723.42</td>
+          </tr>
+          <tr>
+            <td>Permit Fee</td>
+            <td>USD 350.00</td>
+          </tr>
+          <tr>
+            <td>Waste Disposal</td>
+            <td>USD 475.00</td>
+          </tr>
+          <tr>
+            <td>Dumpster Rental</td>
+            <td>USD 280.00</td>
+          </tr>
+          <tr class="row-grand">
+            <td>Grand Total</td>
+            <td>USD 22,247.18</td>
+          </tr>
+          <tr class="row-deposit">
+            <td>Deposit (30%)</td>
+            <td>USD 6,674.15</td>
+          </tr>
+          <tr class="row-status">
+            <td>Status</td>
+            <td>Not yet Paid</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="terms-section">
+      <div class="terms-title">Terms &amp; Conditions</div>
+      <ol class="terms-list">
+        <li>A 30% deposit is required to schedule the project. Balance is due upon completion and final walkthrough.</li>
+        <li>Work is guaranteed for 10 years on labor; manufacturer warranties on materials vary (see spec sheets).</li>
+        <li>Unforeseen structural damage discovered during tear-off will be documented and quoted separately before any additional work is performed.</li>
+        <li>Project timeline is weather-dependent. ACME Roofing is not responsible for delays caused by inclement weather, material back-orders, or permit processing times.</li>
+        <li>Homeowner must provide clear access to the roof perimeter and a designated area for dumpster placement.</li>
+        <li>This quote is valid for 14 days from the quote date above.</li>
+      </ol>
+    </div>
+  </div>
+
+  <footer class="page-foot">
+    <div class="page-foot-inner">Page 3 of 3</div>
+  </footer>
+</div>
+
+</body>
+</html>
